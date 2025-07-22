@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 // PUBLIC_INTERFACE
@@ -172,13 +172,53 @@ function GameInfo({ currentPlayer, winner, draw }) {
 
 // PUBLIC_INTERFACE
 /**
- * Action bar with Restart button.
+ * Action bar with Restart button and animated 3D/shiny effects.
  */
 function ActionBar({ restartGame }) {
+  // States/refs to handle animation classes & shine
+  const [bounce, setBounce] = useState(false);
+  const [shine, setShine] = useState(false);
+  const btnRef = useRef(null);
+
+  // Handler for animated tactile + shine effect
+  const handleRestart = () => {
+    // Trigger 3D bounce
+    setBounce(true);
+    setShine(true);
+    // Actually restart the game
+    restartGame();
+  };
+
+  // Remove animation class after bounce completes
+  useEffect(() => {
+    if (bounce) {
+      const timeout = setTimeout(() => setBounce(false), 290); // match keyframes duration
+      return () => clearTimeout(timeout);
+    }
+  }, [bounce]);
+  // Remove shine overlay after animation
+  useEffect(() => {
+    if (shine) {
+      const timeout = setTimeout(() => setShine(false), 870); // match shine keyframes duration
+      return () => clearTimeout(timeout);
+    }
+  }, [shine]);
+
   return (
     <div className="ttt-actions">
-      <button className="ttt-btn ttt-btn-restart" onClick={restartGame}>
+      <button
+        ref={btnRef}
+        className={
+          "ttt-btn ttt-btn-restart" +
+          (bounce ? " animate-bounce" : "")
+        }
+        onClick={handleRestart}
+        type="button"
+        tabIndex={0}
+        aria-label="Restart game"
+      >
         Restart
+        {shine && <span className="ttt-btn-shine" />}
       </button>
     </div>
   );

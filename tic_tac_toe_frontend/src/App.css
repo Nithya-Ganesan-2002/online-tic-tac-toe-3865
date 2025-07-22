@@ -225,8 +225,78 @@
   transition: background .18s, box-shadow .18s;
   cursor: pointer;
 }
+/* 3D/Animated Restart Button Enhancements */
 .ttt-btn-restart {
   background: var(--secondary);
+  box-shadow:
+    0 2.5px 12px rgba(67,160,71,0.11), /* soft green shadow */
+    0 10px 22px 0 rgba(67,160,71,0.08),
+    0 0.5px 2.5px #fff8 inset;
+  position: relative;
+  /* 3D simulated elevation */
+  transition:
+    transform 0.19s cubic-bezier(.21,1.15,.44,1),
+    box-shadow 0.23s cubic-bezier(.22,1.03,.43,1),
+    background 0.16s;
+  will-change: transform, box-shadow;
+  overflow: hidden;
+}
+
+/* Button press-in effect */
+.ttt-btn-restart:active {
+  transform: scale(.95) translateY(2.5px);
+  box-shadow:
+    0 2px 3.5px rgba(67,160,71,0.13) inset,
+    0 0.5px 6px 0 rgba(67,160,71,0.06) inset;
+}
+
+/* Add subtle bounce on click (animation triggers on :active) */
+.ttt-btn-restart.animate-bounce {
+  animation: restart-bounce 0.28s cubic-bezier(.19,1.2,.38,1) 1;
+}
+@keyframes restart-bounce {
+  0%   { transform: scale(0.98);}
+  55%  { transform: scale(1.06);}
+  85%  { transform: scale(0.96);}
+  100% { transform: scale(1);}
+}
+
+/* Shine Ripple/Reflection animation */
+.ttt-btn-restart .ttt-btn-shine {
+  position: absolute;
+  top: 0; left: -70%;
+  width: 62%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.01) 53%, rgba(255,255,255,0.29) 77%, rgba(255,255,255,0.03) 92%);
+  pointer-events: none;
+  opacity: 0.83;
+  transform: skewX(-23deg);
+  animation: shine 0.81s cubic-bezier(.23, .93, .56, 1.01);
+}
+@keyframes shine {
+  from { left: -62%; opacity: 0.06; }
+  25%  { left: 13%; opacity: 0.2;}
+  57%  { left: 75%; opacity: 0.33;}
+  to   { left: 120%; opacity: 0;}
+}
+
+/* Glow on hover/focus for extra tactility */
+.ttt-btn-restart:hover, .ttt-btn-restart:focus-visible {
+  background: var(--accent);
+  color: var(--white);
+  box-shadow:
+    0 7px 24px rgba(211,47,47,0.13), /* accent (red) shadow */
+    0 1.5px 10px 0 rgba(67,160,71,0.12);
+  outline: none;
+}
+
+/* Responsive: Adjust button size + effect for mobile */
+@media (max-width: 600px) {
+  .ttt-btn-restart {
+    font-size: 1rem;
+    padding: 9px 14vw;
+    border-radius: 9px;
+  }
 }
 .ttt-btn:hover, .ttt-btn:focus {
   background: var(--accent);
