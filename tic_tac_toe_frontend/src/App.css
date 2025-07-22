@@ -1,104 +1,267 @@
-/* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --primary: #1976D2;
+  --secondary: #43A047;
+  --accent: #D32F2F;
+  --white: #fff;
+  --ttt-bg: #f7fafe;
+  --ttt-shadow: 0 4px 24px rgba(25, 118, 210, 0.07);
 }
-
 [data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+  --primary: #1976D2;
+  --secondary: #43A047;
+  --accent: #D32F2F;
+  --white: #fff;
+  --ttt-bg: #181b1e;
+  --ttt-shadow: 0 4px 24px rgba(19, 47, 47, 0.15);
 }
 
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+/* Main Layout */
+.ttt-app {
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  background: var(--ttt-bg);
+  color: #181b1e;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.ttt-main-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* Title & Info */
+.ttt-header {
+  margin-bottom: 1.4rem;
+  text-align: center;
+}
+.ttt-title {
+  margin: 0;
+  color: var(--primary);
+  font-size: 2.3rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.ttt-description {
+  color: #888fa1;
+  font-size: 1.08rem;
+  margin-bottom: 1.7rem;
 }
 
+/* Game Board */
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(58px, 72px));
+  grid-template-rows: repeat(3, minmax(58px, 72px));
+  gap: 12px;
+  background: var(--white);
+  border-radius: 1.2rem;
+  box-shadow: var(--ttt-shadow);
+  margin: 0 auto 1.3rem auto;
+  padding: 15px;
+  max-width: 280px;
+  width: 100vw;
+  user-select: none;
+  touch-action: manipulation;
+  justify-content: center;
+  align-content: center;
+}
+.ttt-cell {
+  width: 68px;
+  height: 68px;
+  font-size: 2.2rem;
+  font-weight: 500;
+  border-radius: 0.8rem;
+  border: 1.5px solid var(--primary);
+  background: var(--ttt-bg);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .18s;
+  box-shadow: 0 1px 2px rgba(25,118,210,0.05);
+  outline: none;
+}
+.ttt-cell:disabled, .ttt-cell[disabled] {
+  background: #e3eae9;
+  cursor: not-allowed;
+  color: #b0babf;
+  pointer-events: none;
+}
+.ttt-cell-winner {
+  background: var(--accent);
+  color: var(--white) !important;
+  border-color: var(--accent);
+  box-shadow: 0 2px 6px rgba(211,47,47,0.18);
+  animation: popwin 0.19s;
+}
+@keyframes popwin {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.09); }
+  100% { transform: scale(1); }
+}
+.ttt-cell-last {
+  box-shadow: 0 0 0 5px rgba(25,118,210,0.07);
+  border-width: 2.2px;
+}
+
+.ttt-cell-value.ttt-x {
+  color: var(--primary);
+}
+.ttt-cell-value.ttt-o {
+  color: var(--secondary);
+}
+.ttt-cell-value {
+  font-size: 2.1rem;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+  font-weight: 600;
+}
+
+/* Player Turn & Outcome Info */
+.ttt-info {
+  text-align: center;
+  margin: 0.7rem 0 1.1rem 0;
+}
+.ttt-turn {
+  font-size: 1.12rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.ttt-turn-player {
+  font-size: 1.17rem;
+  font-weight: bold;
+  padding: 3px 17px;
+  border-radius: 13px;
+  background: var(--primary);
+  color: var(--white);
+  letter-spacing: 2px;
+  transition: background 0.2s;
+}
+.ttt-turn-player.ttt-x {
+  background: var(--primary);
+}
+.ttt-turn-player.ttt-o {
+  background: var(--secondary);
+}
+.ttt-outcome {
+  font-size: 1.26rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+.ttt-victory-text {
+  color: var(--secondary);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.ttt-draw-text {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Actions, Restart */
+.ttt-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.ttt-btn {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding: 11px 30px;
+  box-shadow: 0 2px 8px rgba(25,118,210,.08);
+  transition: background .18s, box-shadow .18s;
+  cursor: pointer;
+}
+.ttt-btn-restart {
+  background: var(--secondary);
+}
+.ttt-btn:hover, .ttt-btn:focus {
+  background: var(--accent);
+  color: var(--white);
+}
+
+/* Theme Toggle Button */
 .theme-toggle {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
+  top: 21px;
+  right: 21px;
+  background-color: var(--white);
+  color: var(--primary);
+  border: 1.3px solid var(--primary);
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
+  padding: 7px 18px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.1);
+  transition: all 0.25s;
+  z-index: 4;
 }
-
 .theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+  background-color: var(--primary);
+  color: var(--white);
 }
-
 .theme-toggle:active {
-  transform: translateY(0);
+  opacity: 0.91;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Footer */
+.ttt-footer {
+  text-align: center;
+  font-size: 0.97rem;
+  color: #787e88;
+  padding: 26px 0 9px 0;
+  background: transparent;
+  letter-spacing: 0.11em;
+}
+.ttt-footer a { color: var(--primary); text-decoration: none;}
+.ttt-footer a:hover {
+  text-decoration: underline;
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
+/* Responsive design for mobile & tablets */
+@media (max-width: 600px) {
+  .ttt-board {
+    gap: 8px;
+    padding: 7px;
+    max-width: 99vw;
+    min-width: unset;
+  }
+  .ttt-cell {
+    width: 16vw;
+    height: 16vw;
+    min-width: 44px; min-height: 44px;
+    font-size: 1.46rem;
+  }
+  .ttt-title {
+    font-size: 1.3rem;
+  }
+  .ttt-main-container {
+    padding: 8vw 0 0 0;
+  }
   .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+    position: static;
+    margin: 12px 0;
+    width: 90vw;
+    display: block;
+    font-size: 1rem;
   }
+}
+
+/* Remove default outline in favor of custom highlight */
+.ttt-cell:focus-visible {
+  outline: 2.5px solid var(--accent);
+  box-shadow: 0 2px 9px rgba(211,47,47,0.08);
 }
