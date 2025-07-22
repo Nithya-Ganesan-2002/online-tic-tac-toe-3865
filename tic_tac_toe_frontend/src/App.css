@@ -227,10 +227,10 @@
 }
 /* 3D/Animated Restart Button Enhancements */
 .ttt-btn-restart {
-  background: var(--secondary);
+  background: var(--primary);
   box-shadow:
-    0 2.5px 12px rgba(67,160,71,0.11), /* soft green shadow */
-    0 10px 22px 0 rgba(67,160,71,0.08),
+    0 2.5px 12px rgba(25,118,210,0.13), /* soft blue shadow */
+    0 10px 22px 0 rgba(25,118,210,0.10),
     0 0.5px 2.5px #fff8 inset;
   position: relative;
   /* 3D simulated elevation */
@@ -286,7 +286,7 @@
   color: var(--white);
   box-shadow:
     0 7px 24px rgba(211,47,47,0.13), /* accent (red) shadow */
-    0 1.5px 10px 0 rgba(67,160,71,0.12);
+    0 1.5px 10px 0 rgba(25,118,210,0.13);
   outline: none;
 }
 
