@@ -76,37 +76,78 @@
   font-weight: 500;
   border-radius: 0.8rem;
   border: 1.5px solid var(--primary);
-  background: var(--ttt-bg);
+  /* 3D gradient background and shadow for 3D effect */
+  background: linear-gradient(145deg, #ffffff 65%, #e6ebf7 100%);
   color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all .18s;
-  box-shadow: 0 1px 2px rgba(25,118,210,0.05);
+  /* Smooth transitions for 3D hover/focus/active states */
+  transition: 
+    background 0.18s,
+    box-shadow 0.18s,
+    transform 0.18s;
+  /* Multi-layered shadow and subtle highlight for depth */
+  box-shadow: 0 2.5px 8px rgba(25,118,210,0.13),
+    0 6px 24px 0 rgba(19,47,47,0.09),
+    inset 0 1px 6px #fff,
+    0 1.5px 0 #d2e4ff inset;
   outline: none;
+  /* Simulate slight elevation */
+  will-change: transform, box-shadow;
 }
 .ttt-cell:disabled, .ttt-cell[disabled] {
   background: #e3eae9;
   cursor: not-allowed;
   color: #b0babf;
   pointer-events: none;
+  box-shadow: 0 1px 2.5px #bcc2c7 inset;
+  filter: grayscale(0.08) brightness(0.97);
+}
+/* 3D HOVER/ACTIVE STATE for depth/tactility */
+.ttt-cell:not(:disabled):hover,
+.ttt-cell:not(:disabled):focus-visible {
+  background: linear-gradient(150deg, #f2f6fd 50%, #e0e9f3 100%);
+  box-shadow:
+    0 4.5px 14px rgba(25,118,210,0.14),
+    0 1.5px 10px 0 rgba(19,47,47,0.10),
+    0 2.5px 0 #d7e1ee inset;
+  transform: translateY(-2px) scale(1.03);
+  z-index: 1;
+}
+
+.ttt-cell:active:not(:disabled) {
+  background: linear-gradient(160deg, #eaf1fc 40%, #dee7f4 100%);
+  box-shadow:
+    0 1px 2.5px #a2bcda inset,
+    0 0.5px 5px 0 rgba(25,118,210,0.08) inset;
+  transform: translateY(2px) scale(.97);
 }
 .ttt-cell-winner {
-  background: var(--accent);
+  /* Keep color for winner, 3D style with stronger shadow */
+  background: linear-gradient(135deg, #e87a41 60%, #ffb899 100%);
   color: var(--white) !important;
   border-color: var(--accent);
-  box-shadow: 0 2px 6px rgba(211,47,47,0.18);
+  box-shadow:
+    0 3px 22px 0 rgba(211,47,47,0.34),
+    0 1.5px 10px 0 rgba(211,47,47,0.07),
+    0 2.5px 0 #fff3 inset;
   animation: popwin 0.19s;
+  transform: scale(1.04) translateY(-2.5px);
 }
+
 @keyframes popwin {
   0% { transform: scale(1); }
   50% { transform: scale(1.09); }
   100% { transform: scale(1); }
 }
 .ttt-cell-last {
-  box-shadow: 0 0 0 5px rgba(25,118,210,0.07);
+  box-shadow: 0 0 0 7px rgba(25,118,210,0.10), 
+    0 3.5px 10px 0 rgba(25,118,210,0.09);
   border-width: 2.2px;
+  z-index: 2;
+  position: relative;
 }
 
 .ttt-cell-value.ttt-x {
@@ -184,8 +225,78 @@
   transition: background .18s, box-shadow .18s;
   cursor: pointer;
 }
+/* 3D/Animated Restart Button Enhancements */
 .ttt-btn-restart {
-  background: var(--secondary);
+  background: var(--primary);
+  box-shadow:
+    0 2.5px 12px rgba(25,118,210,0.13), /* soft blue shadow */
+    0 10px 22px 0 rgba(25,118,210,0.10),
+    0 0.5px 2.5px #fff8 inset;
+  position: relative;
+  /* 3D simulated elevation */
+  transition:
+    transform 0.19s cubic-bezier(.21,1.15,.44,1),
+    box-shadow 0.23s cubic-bezier(.22,1.03,.43,1),
+    background 0.16s;
+  will-change: transform, box-shadow;
+  overflow: hidden;
+}
+
+/* Button press-in effect */
+.ttt-btn-restart:active {
+  transform: scale(.95) translateY(2.5px);
+  box-shadow:
+    0 2px 3.5px rgba(67,160,71,0.13) inset,
+    0 0.5px 6px 0 rgba(67,160,71,0.06) inset;
+}
+
+/* Add subtle bounce on click (animation triggers on :active) */
+.ttt-btn-restart.animate-bounce {
+  animation: restart-bounce 0.28s cubic-bezier(.19,1.2,.38,1) 1;
+}
+@keyframes restart-bounce {
+  0%   { transform: scale(0.98);}
+  55%  { transform: scale(1.06);}
+  85%  { transform: scale(0.96);}
+  100% { transform: scale(1);}
+}
+
+/* Shine Ripple/Reflection animation */
+.ttt-btn-restart .ttt-btn-shine {
+  position: absolute;
+  top: 0; left: -70%;
+  width: 62%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.01) 53%, rgba(255,255,255,0.29) 77%, rgba(255,255,255,0.03) 92%);
+  pointer-events: none;
+  opacity: 0.83;
+  transform: skewX(-23deg);
+  animation: shine 0.81s cubic-bezier(.23, .93, .56, 1.01);
+}
+@keyframes shine {
+  from { left: -62%; opacity: 0.06; }
+  25%  { left: 13%; opacity: 0.2;}
+  57%  { left: 75%; opacity: 0.33;}
+  to   { left: 120%; opacity: 0;}
+}
+
+/* Glow on hover/focus for extra tactility */
+.ttt-btn-restart:hover, .ttt-btn-restart:focus-visible {
+  background: var(--accent);
+  color: var(--white);
+  box-shadow:
+    0 7px 24px rgba(211,47,47,0.13), /* accent (red) shadow */
+    0 1.5px 10px 0 rgba(25,118,210,0.13);
+  outline: none;
+}
+
+/* Responsive: Adjust button size + effect for mobile */
+@media (max-width: 600px) {
+  .ttt-btn-restart {
+    font-size: 1rem;
+    padding: 9px 14vw;
+    border-radius: 9px;
+  }
 }
 .ttt-btn:hover, .ttt-btn:focus {
   background: var(--accent);
@@ -244,6 +355,11 @@
     height: 16vw;
     min-width: 44px; min-height: 44px;
     font-size: 1.46rem;
+    /* 3D style is preserved and scales down for mobile */
+    border-radius: 0.6rem;
+    box-shadow: 0 1.5px 5px rgba(25,118,210,0.08),
+      0 0.7px 2.5px 0 #fff8 inset;
+    background: linear-gradient(147deg, #fff 72%, #f1f6fe 100%);
   }
   .ttt-title {
     font-size: 1.3rem;
