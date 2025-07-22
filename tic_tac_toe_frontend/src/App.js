@@ -79,6 +79,9 @@ function App() {
         <section className="ttt-header">
           <h1 className="ttt-title">Tic Tac Toe</h1>
           <p className="ttt-description">A modern, minimalistic implementation for two players</p>
+          <p className="ttt-description" style={{marginTop: '-0.8rem', fontSize: '1.02rem'}}>
+            Take turns placing <b>X</b> or <b>O</b> on the board. The first to align three symbols wins the round.<br />Play with a friend and enjoy!
+          </p>
         </section>
         <GameBoard
           board={board}
